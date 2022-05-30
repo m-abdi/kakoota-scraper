@@ -1,5 +1,5 @@
-import { parse } from 'node-html-parser';
 import fetch from 'node-fetch';
+import { parse } from 'node-html-parser';
 
 export async function cambridgeData(word) {
   const page = await fetch(
@@ -11,6 +11,9 @@ export async function cambridgeData(word) {
   const blocks = document.querySelectorAll('.pr.entry-body__el');
   const data = [];
   for (const block of blocks) {
+    const audios = block.querySelectorAll(
+      "source"
+    );
     const type = block.querySelector('.posgram.dpos-g.hdib.lmr-5').text;
     const d = { type, meanings: [] };
     const meanings = block.querySelectorAll('.def-block');
@@ -19,7 +22,16 @@ export async function cambridgeData(word) {
       const examples = meaning.querySelectorAll('.examp.dexamp');
       d.meanings.push({ definition, examples: examples.map((e) => e.rawText) });
     }
-    data.push(d);
+    const pronunciationArray = audios.filter((a) =>
+        RegExp(".ogg").test(a.getAttribute("src")) ? false : true
+      ).map((a) =>  "https://dictionary.cambridge.org" +  a.getAttribute("src"))
+    data.push({
+      pronunciation: {
+        "british": pronunciationArray.filter((p)=> RegExp("uk_pron").test(p))[0],
+        "american": pronunciationArray.filter((p)=> RegExp("us_pron").test(p))[0],
+      } ,
+      ...d,
+    });
   }
   return data
 }

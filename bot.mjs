@@ -1,5 +1,5 @@
-import { giveMeFirstImage } from './searchImage.mjs';
 import { cambridgeData } from './parser.mjs';
+import { giveMeFirstImage } from './searchImage.mjs';
 
 const words = ['programming']
 async function getData()  {
@@ -7,7 +7,7 @@ async function getData()  {
     try {
       const image = await giveMeFirstImage(word);
       const dictionaryData = await cambridgeData(word);
-      console.log(JSON.stringify(dictionaryData));
+      console.log(dictionaryData, null, 2);
       console.log(image);
     } catch (e) {
       console.log('Error on word:', word);
