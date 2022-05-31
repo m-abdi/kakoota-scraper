@@ -1,25 +1,30 @@
 import { giveMeFirstImage } from './searchImage.mjs';
 import { cambridgeData } from './parser.mjs';
 import fetch from 'node-fetch';
-const words = [{ w: 'programming', l: 'en' }];
+import fs from "fs"
+import "dotenv/config"
+// const words = [{ w: 'programming', l: 'en' }];
+const words = JSON.parse(fs.readFileSync('./all-words.json', 'utf8'));
+let done = []
 async function getData() {
   for (const word of words) {
     try {
-      const picture_url = await giveMeFirstImage(word.w);
-      const dictionaryData = await cambridgeData(word.w);
+      const picture_url = await giveMeFirstImage(word);
+      const dictionaryData = await cambridgeData(word);
       const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
         body: JSON.stringify({
           picture_url,
-          word: word.w,
+          word: word,
           data: dictionaryData,
-          language: word.l,
+          language: "en",
           token: process.env.FRONT_END_API_TOKEN,
         }),
       });
       if (apiResp.ok) {
         console.log('success');
+        done.push(word)
       } else {
         console.log('error');
       }
