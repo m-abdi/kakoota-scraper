@@ -1,14 +1,28 @@
-import { cambridgeData } from './parser.mjs';
 import { giveMeFirstImage } from './searchImage.mjs';
-
-const words = ['programming']
-async function getData()  {
+import { cambridgeData } from './parser.mjs';
+import fetch from 'node-fetch';
+const words = [{ w: 'programming', l: 'en' }];
+async function getData() {
   for (const word of words) {
     try {
-      const image = await giveMeFirstImage(word);
-      const dictionaryData = await cambridgeData(word);
-      console.log(dictionaryData, null, 2);
-      console.log(image);
+      const picture_url = await giveMeFirstImage(word.w);
+      const dictionaryData = await cambridgeData(word.w);
+      const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+          picture_url,
+          word: word.w,
+          data: dictionaryData,
+          language: word.l,
+          token: process.env.FRONT_END_API_TOKEN,
+        }),
+      });
+      if (apiResp.ok) {
+        console.log('success');
+      } else {
+        console.log('error');
+      }
     } catch (e) {
       console.log('Error on word:', word);
       console.log(e.message);
@@ -17,4 +31,4 @@ async function getData()  {
   }
 }
 
-getData()
+getData();
