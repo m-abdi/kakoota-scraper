@@ -1,0 +1,15 @@
+# Kakoota Scrper
+
+This package merges data from cambridge dictionay and google image search results.
+
+** before first use: turn on your vpn! **
+
+## Installing Deps
+
+```bash
+npm i
+```
+## Usage
+```bash
+node bot.mjs
+```

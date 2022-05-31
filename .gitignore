@@ -1,6 +1,5 @@
 node_modules/
 *.txt
-*.env
 *.png
 *.jpg
 *.jpeg
