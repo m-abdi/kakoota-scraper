@@ -12,40 +12,37 @@ try {
 }
 async function getData(words) {
   let remained = [...words];
-  
-  for (const word of words) {
-    try{
 
- const picture_url = await giveMeFirstImage(word);
-    const dictionaryData = await cambridgeData(word);
-    const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
-      headers: { 'Content-Type': 'application/json' },
-      method: 'POST',
-      body: JSON.stringify({
-        picture_url,
-        word: word,
-        data: dictionaryData,
-        language: 'en',
-        token: process.env.FRONT_END_API_TOKEN,
-      }),
-    });
-    if (apiResp.ok) {
-      console.log('success' + ' ' + word);
-      remained = remained.filter((r) => r !== word);
-      fs.writeFile(
-        './remained.json',
-        JSON.stringify(remained),
-        {},
-        (err) => {}
-      );
-    } else {
-      console.log('error');
+  for (const word of words) {
+    try {
+      const { data, word: dictionaryWord } = await cambridgeData(word);
+      const picture_url = await giveMeFirstImage(dictionaryWord);
+      const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
+        headers: { 'Content-Type': 'application/json' },
+        method: 'POST',
+        body: JSON.stringify({
+          picture_url,
+          word: dictionaryWord,
+          data,
+          language: 'en',
+          token: process.env.FRONT_END_API_TOKEN,
+        }),
+      });
+      if (apiResp.ok) {
+        console.log('success' + ' ' + word);
+        remained = remained.filter((r) => r !== word);
+        fs.writeFile(
+          './remained.json',
+          JSON.stringify(remained),
+          {},
+          (err) => {}
+        );
+      } else {
+        console.log('error');
+      }
+    } catch {
+      console.log('error on word:  ' + word);
+      continue;
     }
-    }
-   
-    catch {
-    console.log("error on word:  " + word)
-    continue
-  }
   }
 }
