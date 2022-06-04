@@ -1,3 +1,18 @@
-var words = require('an-array-of-english-words');
+import fs from 'fs';
 
-console.log(["a", "b", "c"].reverse());
+import readline from "readline"
+
+const rl = readline.createInterface({
+  input: fs.createReadStream('./1000.txt'),
+});
+
+const output = []
+
+rl.on('line', (line) => {
+  console.log('Line from file:', line);
+  output.push(line.replace(/\s\s+/g, ''));
+});
+
+rl.on("close", ()=>{
+    fs.writeFile('./all-1000.txt', JSON.stringify(output), {}, (err) => {})
+})
