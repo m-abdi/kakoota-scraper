@@ -1,3 +1,3 @@
 var words = require('an-array-of-english-words');
 
-console.log(words.filter((d) => /fun/.test(d)));
+console.log(["a", "b", "c"].reverse());

@@ -1,8 +1,9 @@
-import { giveMeFirstImage } from './searchImage.mjs';
-import { cambridgeData } from './parser.mjs';
+import { giveMeFirstImage } from './searchImage.js';
+import { cambridgeData } from './parser.js';
 import fetch from 'node-fetch';
 import fs from 'fs';
 import 'dotenv/config';
+
 try {
   const words = JSON.parse(fs.readFileSync('./remained.json', 'utf8'));
   getData(words);
@@ -38,9 +39,16 @@ async function getData(words) {
           (err) => {}
         );
       } else {
-        console.log('error');
+        console.log('api error');
       }
     } catch {
+      remained = remained.filter((r) => r !== word);
+      fs.writeFile(
+        './remained.json',
+        JSON.stringify(remained),
+        {},
+        (err) => {}
+      );
       console.log('error on word:  ' + word);
       continue;
     }
