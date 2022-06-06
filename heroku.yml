@@ -3,4 +3,4 @@ build:
     worker: Dockerfile
 
 run:
-  worder:  docker run -i --init --rm --cap-add=SYS_ADMIN --name puppeteer-chrome puppeteer-chrome-linux node -e "`cat bot.js`"
+  worker:  docker run -i --init --rm --cap-add=SYS_ADMIN --name puppeteer-chrome puppeteer-chrome-linux node -e "`cat bot.js`"
