@@ -1,3 +1,3 @@
 FROM node:latest
-RUN yarn
-CMD [ "yarn", "start" ]
+RUN npm i
+CMD [ "node", "bot.js" ]
