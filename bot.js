@@ -1,8 +1,9 @@
-import { giveMeFirstImage } from './searchImage.js';
+import 'dotenv/config';
+
 import { cambridgeData } from './parser.js';
 import fetch from 'node-fetch';
 import fs from 'fs';
-import 'dotenv/config';
+import { giveMeFirstImage } from './searchImage.js';
 import puppeteer from 'puppeteer';
 
 async function luanchBrowser() {
@@ -29,7 +30,8 @@ async function getData(words) {
     const page = await browser.newPage();
     try {
       const { data, word: dictionaryWord } = await cambridgeData(word);
-      const picture_url = await giveMeFirstImage(dictionaryWord, browser, page);
+      const picture_url = await giveMeFirstImage(dictionaryWord + " " + "picture", browser, page);
+      console.log(picture_url)
       const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',

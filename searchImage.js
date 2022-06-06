@@ -1,6 +1,6 @@
-import puppeteer from 'puppeteer';
-import { parse } from 'node-html-parser';
 import fs from 'fs';
+import { parse } from 'node-html-parser';
+import puppeteer from 'puppeteer';
 export async function giveMeFirstImage(keyword, browser, page) {
   
   // login page
@@ -20,7 +20,7 @@ export async function giveMeFirstImage(keyword, browser, page) {
   // })
   // fs.writeFile("index.html", root.toString(), ()=>{})
   while (true) {
-    await page.waitForTimeout(3000);
+    await page.waitForTimeout(1000);
     const src = await page.evaluate(() => {
       const imges = document.querySelectorAll('a[rel="noopener"] > img');
       for (let i of imges) {
