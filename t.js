@@ -1,18 +1,12 @@
-import fs from 'fs';
+function toEnglishDigit(oldString) {
+  const find = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+  const replace = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+  let tempString = oldString
+  for (var i = 0; i < find.length; i++) {
+    let regex = new RegExp(find[i], 'g');
+    tempString = tempString.replace(regex, replace[i]);
+  }
+  return tempString;}
 
-import readline from "readline"
 
-const rl = readline.createInterface({
-  input: fs.createReadStream('./1000.txt'),
-});
-
-const output = []
-
-rl.on('line', (line) => {
-  console.log('Line from file:', line);
-  output.push(line.replace(/\s\s+/g, ''));
-});
-
-rl.on("close", ()=>{
-    fs.writeFile('./all-1000.txt', JSON.stringify(output), {}, (err) => {})
-})
+console.log(toEnglishDigit('۱۲234234'));

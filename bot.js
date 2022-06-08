@@ -26,8 +26,8 @@ async function getData(words) {
   let remained = [...words];
   const browser = await luanchBrowser();
 
+  const page = await browser.newPage();
   for (const word of words) {
-    const page = await browser.newPage();
     try {
       const { data, word: dictionaryWord } = await cambridgeData(word);
       const picture_url = await giveMeFirstImage(dictionaryWord + " " + "picture", browser, page);
@@ -66,7 +66,6 @@ async function getData(words) {
       console.log('error on word:  ' + word);
       continue;
     }
-    await page.close();
   }
   await browser.close();
 }
