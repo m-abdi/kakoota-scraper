@@ -68,20 +68,20 @@ async function getData(words) {
       if (apiResp.ok) {
         console.log('success' + ' ' + word);
         remained = remained.filter((r) => r !== word);
-        // fs.writeFileSync(
-        //   './remained.json',
-        //   JSON.stringify(remained), {encoding: "utf8"}
-        // );
+        fs.writeFileSync(
+          './remained.json',
+          JSON.stringify(remained), {encoding: "utf8"}
+        );
       } else {
         console.log('api error');
       }
     } catch {
       remained = remained.filter((r) => r !== word);
-      // fs.writeFileSync(
-      //   './remained.json',
-      //   JSON.stringify(remained), {encoding: "utf8"}
+      fs.writeFileSync(
+        './remained.json',
+        JSON.stringify(remained), {encoding: "utf8"}
 
-      // );
+      );
       console.log('error on word:  ' + word);
       continue;
     }
