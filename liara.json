@@ -1,0 +1,12 @@
+{
+  "app": "scraper",
+  "platform": "docker",
+  "port": "3000",
+  "disks": [
+    {
+      "name": "workspace",
+      "mountTo": "/app/"
+    }
+
+  ]
+}
