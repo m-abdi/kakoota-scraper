@@ -19,7 +19,11 @@ export async function giveMeFirstImage(keyword, browser, page) {
   //   return document.querySelector('html').outerHTML;
   // })
   // fs.writeFile("index.html", root.toString(), ()=>{})
+  const startTime = Date.now()
   while (true) {
+    if (Date.now() > startTime + 3 * 60 * 1000) {
+      throw "too long waiting"
+    }
     await page.waitForTimeout(1000);
     const src = await page.evaluate(() => {
       const imges = document.querySelectorAll('a[rel="noopener"] > img');
@@ -31,21 +35,11 @@ export async function giveMeFirstImage(keyword, browser, page) {
       }
       return '...';
     });
-    // await page.click('div > div > a > img', { button: 'right' });
-    // await page.waitForTimeout(1000);
-    // await page.keyboard.press('ArrowUp');
-    // await page.waitForTimeout(1000);
-    // await page.keyboard.press('ArrowUp');
-    // await page.waitForTimeout(1000);
-    // await page.keyboard.press('ArrowUp');
-    // await page.waitForTimeout(1000);
-    // await page.keyboard.press('Enter');
-    // const src = await page.evaluate(() => navigator.clipboard.readText());
     const srcTest = RegExp('^http').test(src.toString());
     if (srcTest) {
       return src.toString();
     } else {
-      if (counter > 2) {
+      if (counter > 3) {
         results[resultIndex + 1].click();
         resultIndex++;
         counter = 0;

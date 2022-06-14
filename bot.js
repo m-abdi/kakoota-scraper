@@ -11,6 +11,7 @@ async function luanchBrowser() {
     executablePath: '/usr/bin/google-chrome',
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    timeout: 40000
   });
 
   return browser;
