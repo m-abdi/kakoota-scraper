@@ -45,7 +45,7 @@ export async function giveMeFirstImage(keyword, browser, page) {
     if (srcTest) {
       return src.toString();
     } else {
-      if (counter > 1) {
+      if (counter > 2) {
         results[resultIndex + 1].click();
         resultIndex++;
         counter = 0;

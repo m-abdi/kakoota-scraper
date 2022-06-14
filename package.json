@@ -5,6 +5,7 @@
   },
   "dependencies": {
     "an-array-of-english-words": "^2.0.0",
+    "crypto-js": "^4.1.1",
     "dotenv": "^16.0.1",
     "node-cleanup": "^2.1.2",
     "node-fetch": "^3.2.4",

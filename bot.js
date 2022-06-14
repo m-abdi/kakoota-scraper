@@ -8,6 +8,7 @@ import puppeteer from 'puppeteer';
 
 async function luanchBrowser() {
   const browser = await puppeteer.launch({
+    executablePath: '/usr/bin/google-chrome',
     headless: true,
     args: ['--no-sandbox', '--disable-setuid-sandbox'],
   });
@@ -30,8 +31,12 @@ async function getData(words) {
   for (const word of words) {
     try {
       const { data, word: dictionaryWord } = await cambridgeData(word);
-      const picture_url = await giveMeFirstImage(dictionaryWord + " " + "picture", browser, page);
-      console.log(picture_url)
+      const picture_url = await giveMeFirstImage(
+        dictionaryWord + ' ' + 'picture',
+        browser,
+        page
+      );
+      console.log(picture_url);
       const apiResp = await fetch(process.env.FRONT_URL + '/api/newTest', {
         headers: { 'Content-Type': 'application/json' },
         method: 'POST',
