@@ -10,19 +10,35 @@ async function luanchBrowser() {
   const browser = await puppeteer.launch({
     executablePath: '/usr/bin/google-chrome',
     headless: true,
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
-    timeout: 40000
+    args: ['--no-sandbox'],
+    timeout: 40000,
   });
 
   return browser;
 }
 
 try {
-  const words = JSON.parse(fs.readFileSync('./remained.json', 'utf8'));
-  getData(words);
+  while (true) {
+    const words = JSON.parse(fs.readFileSync('./remained.json', 'utf8'));
+    try {
+      getData(words);
+      break;
+    } catch (e) {
+      console.log(e);
+      continue;
+    }
+  }
 } catch {
-  const words = JSON.parse(fs.readFileSync('./all-words.json', 'utf8'));
-  getData(words);
+  while (true) {
+    const words = JSON.parse(fs.readFileSync('./all-words.json', 'utf8'));
+    try {
+      getData(words);
+      break;
+    } catch (e) {
+      console.log(e);
+      continue;
+    }
+  }
 }
 async function getData(words) {
   let remained = [...words];
@@ -52,22 +68,19 @@ async function getData(words) {
       if (apiResp.ok) {
         console.log('success' + ' ' + word);
         remained = remained.filter((r) => r !== word);
-        fs.writeFile(
+        fs.writeFileSync(
           './remained.json',
-          JSON.stringify(remained),
-          {},
-          (err) => {}
+          JSON.stringify(remained), {encoding: "utf8"}
         );
       } else {
         console.log('api error');
       }
     } catch {
       remained = remained.filter((r) => r !== word);
-      fs.writeFile(
+      fs.writeFileSync(
         './remained.json',
-        JSON.stringify(remained),
-        {},
-        (err) => {}
+        JSON.stringify(remained), {encoding: "utf8"}
+
       );
       console.log('error on word:  ' + word);
       continue;
